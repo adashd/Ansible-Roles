@@ -42,7 +42,7 @@ ansible-galaxy role list
 # /usr/share/ansible/roles
 # /etc/ansible/roles
 
-mv webserver /etc/ansible/roles/
+mv webserver/  /etc/ansible/roles/
 wherever you keep setup.yml file, playbook will execute.
 
 custom role path
