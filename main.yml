@@ -1,0 +1,44 @@
+- hosts: all
+
+  gather_facts: no
+
+  vars_files:
+    - "variable.yml"
+
+  tasks:
+    - name: "disable selinux"
+      ansible.posix.selinux:
+        state: disabled
+
+    - name: "install httpd"
+      package:
+        name: "httpd"
+        state: present
+
+
+    - name: "create document root"
+      file:
+        path: "{{ docRoot }}"
+        state: directory
+
+
+# template module is used to copy the file and also replace the variables in the file with the values defined in the playbook.
+    - name: "web server conf changes"
+      template:
+        src: "apache.conf.j2"
+        dest: "/etc/httpd/conf.d/apache.conf"
+      notify: "start httpd"
+# notify is used to call the handler which will restart the httpd service if there is any change in configuration file.
+
+
+    - name: "copy index.html"
+      copy:
+        src: "index.html"
+        dest: "{{ docRoot }}/index.html"
+
+
+  handlers:
+    - name: "start httpd"
+      service:
+        name: "httpd"
+        state: restarted
