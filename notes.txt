@@ -7,9 +7,9 @@ cd webserver
 ls
 README.md  /defaults  /files  /handlers  /meta  /tasks  /templates  /tests  /vars
 
-now put all files in relatable folder
+now put all files in relatable folder from playbook.yml
 
-eg  tasks/main.yml file will have all the tasks only from playbook file
+eg  tasks/main.yml file will have all the tasks only from playbook file - playbook.yml
     handlers content will be placed in handlers/main.yml
         - name: "start httpd"
           service:
