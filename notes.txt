@@ -1,0 +1,53 @@
+# role is used to organize files
+
+ansible-galaxy role init webserver
+ls
+webserver
+cd webserver
+ls
+README.md  /defaults  /files  /handlers  /meta  /tasks  /templates  /tests  /vars
+
+now put all files in relatable folder
+
+eg  tasks/main.yml file will have all the tasks only from playbook file
+    handlers content will be placed in handlers/main.yml
+        - name: "start httpd"
+          service:
+            name: "httpd"
+            state: restarted
+
+    copy index.html in files folder
+    copy variables.yml content in /vars/main.yml
+    copy apache.conf.j2 in templates folder
+
+
+# how to use this role
+
+vim setup.yml
+- hosts: 172.31.4.3
+  roles:
+  - role: webserver
+  - role: security
+
+- hosts: 172.31.6.106, 1.2.3.4
+  roles:
+  - role: dbrole
+
+
+now to use this role:
+ansible-playbook setup.yml
+
+
+ansible-galaxy role list
+# /usr/share/ansible/roles
+# /etc/ansible/roles
+
+mv webserver /etc/ansible/roles/
+wherever you keep setup.yml file, playbook will execute.
+
+custom role path
+mkdir /home/dev/myroles
+vim ansible.cgf
+roles_path=/home/dev/myroles:{{ ANSIBLE_HOME ~ "/roles:/usr/share/ansible/roles:/etc/ansible/roles" }}
+
+ansible-galaxy role list
